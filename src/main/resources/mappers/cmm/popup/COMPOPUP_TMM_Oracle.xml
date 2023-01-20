@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="COMPOPUP">
+
+	<!-- 공통코드(헤더) 팝업 정보 조회 -->
+	<select id="TMM1003" parameterType="hashmap" resultType="hashmap">
+	<![CDATA[
+
+        SELECT  row_number() over (order by COMM_CODE) AS id
+			   ,COMM_CODE   /*공통코드*/
+               ,COMM_CDNM   /*공통코드명*/
+               ,SYST_CODE   /*시스템코드*/
+               ,CDGB_CODE   /*코드구분코드*/
+               ,COCD_LNTH   /*세부코드길이*/ 
+          FROM TM_CODEXH
+		 WHERE COMM_CODE || COMM_CDNM LIKE '%' || #{COMM_CDNM} || '%'
+	]]>
+	<if test='COMM_CODE != null and COMM_CODE != ""'>
+	<![CDATA[
+			  AND COMM_CODE = #{COMM_CODE}		
+	]]>		   
+	</if>	 
+	<![CDATA[	 
+		 ORDER BY COMM_CODE 
+	]]>	 
+	</select>	
+</mapper>

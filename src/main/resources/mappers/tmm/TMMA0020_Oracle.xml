@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.tmm.TMMA0020Mapper">
+
+	<select id="getTmMessxm" parameterType="hashmap" resultType="TmMessxm">
+	<![CDATA[
+		SELECT ROWNUM AS id
+			 , A.MSGE_CODE	/* 메시지코드 */
+			 , A.MSGE_CNTT	/* 메시지내용 */
+			 , A.MSEN_CNTT	/* 메시지영문내용 */
+			 , A.MSKN_CODE	/* 메시지종류코드 */
+			 , A.MSDV_CODE	/* 메시지구분코드 */
+		  FROM TM_MESSXM A		  
+	]]>		
+	<trim prefix="WHERE" prefixOverrides="AND|OR">
+	<if test="MSGE_CNTT != null and MSGE_CNTT != ''">
+		   AND A.MSGE_CODE || A.MSGE_CNTT LIKE '%' || #{MSGE_CNTT} || '%'	/* 메시지내용 */
+	</if>
+	</trim>
+ 		 ORDER BY A.MSGE_CODE
+	</select>
+
+	<!-- <select id="TMMA0020.SEARCH01" parameterType="hashmap" resultType="hashmap">
+	<![CDATA[ 
+        SELECT  MSGE_CODE   /*메시지코드*/
+               ,MSGE_CNTT   /*메시지내용*/
+               ,MSEN_CNTT	/*메시지내용(영문)*/
+               ,MSKN_CODE   /*메시지종류코드*/
+               ,MSDV_CODE   /*메시지구분코드*/
+          FROM TM_MESSXM
+         WHERE MSGE_CODE = #{MSGE_CODE}
+	]]>
+	</select> -->
+	
+	<!-- <insert id="TMMA0020.SAVE00" parameterType="hashmap">
+	<![CDATA[
+		INSERT INTO TM_MESSXM (
+			   MSGE_CODE	/* 메시지코드 */
+			 , MSGE_CNTT	/* 메시지내용 */
+			 , MSEN_CNTT	/* 메시지영문내용 */
+			 , MSKN_CODE	/* 메시지종류코드 */
+			 , MSDV_CODE	/* 메시지구분코드 */
+			 , INST_USID	/* 입력작업자 */
+			 , INST_DATE	/* 입력일시 */
+			 , UPDT_USID	/* 수정작업자 */
+			 , UPDT_DATE	/* 수정일시 */
+		) VALUES (
+			   #{MSGE_CODE}	/* 메시지코드 */
+			 , #{MSGE_CNTT}	/* 메시지내용 */
+			 , #{MSEN_CNTT}	/* 메시지영문내용 */
+			 , #{MSKN_CODE}	/* 메시지종류코드 */
+			 , #{MSDV_CODE}	/* 메시지구분코드 */
+			 , #{UPDT_USID}	/* 입력작업자 */
+			 , SYSDATE	/* 입력일시 */
+			 , #{UPDT_USID}	/* 수정작업자 */
+			 , SYSDATE	/* 수정일시 */
+		)
+	]]>
+	</insert> -->
+
+	<!-- <update id="TMMA0020.UPDATE00" parameterType="hashmap">
+	<![CDATA[
+		UPDATE TM_MESSXM
+		   SET MSGE_CNTT = #{MSGE_CNTT}	/* 메시지내용 */
+			 , MSEN_CNTT = #{MSEN_CNTT}	/* 메시지영문내용 */
+			 , MSKN_CODE = #{MSKN_CODE}	/* 메시지종류코드 */
+			 , MSDV_CODE = #{MSDV_CODE}	/* 메시지구분코드 */
+			 , UPDT_USID = #{UPDT_USID}	/* 수정작업자 */
+			 , UPDT_DATE = SYSDATE	/* 수정일시 */
+		 WHERE MSGE_CODE = #{MSGE_CODE}	/* 메시지코드 */
+	]]>
+	</update> -->
+
+	<!-- <delete id="TMMA0020.DELETE00" parameterType="hashmap">
+	<![CDATA[
+	
+		DELETE FROM TM_MESSXM
+		 WHERE MSGE_CODE = #{MSGE_CODE}	/* 메시지코드 */
+
+	]]>
+	</delete> -->
+
+</mapper>

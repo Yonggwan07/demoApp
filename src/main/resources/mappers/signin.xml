@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.ComAuthMapper">
+	<select id="getUserInfo" parameterType="SigninInfo" resultType="UserInfo">
+		<![CDATA[
+            /* getUserInfo 로그인 정보 조회 */
+            SELECT A.USER_IDXX AS userIdxx  /* 아이디  */
+                 , B.EMPL_NUMB AS emplNumb  /* 사원번호 */
+                 , NVL(B.EMPL_NAME, A.USER_NAME) AS emplName    /* 성명 */
+        ]]>
+		<if test='scnbYsno == "1"'>
+			<![CDATA[
+                 , A.SCRT_NUMB AS scrtNumb  /* 비밀번호 */
+        ]]>
+		</if>
+		<![CDATA[
+                 , D.ENFC_CODE										/* 사업장코드 */
+                 , SF_GET_ENFCNAME(D.ENFC_CODE, TO_CHAR(SYSDATE, 'YYYYMMDD')) AS ENFC_NAME		/* 사업장 */
+                 , D.SECT_CODE										/* 소속코드 */
+                 , D.SECT_NAME										/* 소속 */
+                 , B.DEPT_CODE 		/* 부서코드 */
+                 , D.DEPT_NAME		/* 부서 */
+                 , D.SECT_NAME || ' ' || D.DEPT_NAME AS DEPT_THNM	/* 전체부서명 */
+			 , SF_DECRYPT(C.ELTR_MLAD) AS ELTR_MLAD				/* 전자메일주소 */
+			 , SF_DECRYPT(C.HNPN_TENR) AS HNPN_TENR				/* 휴대전화번호 */
+			 , A.USER_GRUP										/* 사용자그룹코드 */
+			 , SF_GET_COMMNAME('USER_GRUP', A.USER_GRUP) AS USER_GRNM		/* 사용자그룹 */
+			 , D.DTGN_CODE										/* 부서구분 */
+			 , SF_GET_COMMNAME('DTGN_CODE', D.DTGN_CODE) AS DTGN_NAME		/* 부서구분명 */
+			 , D.DTGP_CODE										/* 부서그룹 */
+			 , SF_GET_COMMNAME('DTGP_CODE', D.DTGP_CODE) AS DTGP_NAME		/* 부서그룹명 */
+			 , E.GRUP_NAME										/* 권한그룹 */
+       , NVL(A.LGIN_TCNT, 0) AS lginTcnt  /* 로그인시도횟수 */
+		  FROM TM_USERXM A
+		  LEFT JOIN HR_MASTXM B
+				 ON B.EMPL_NUMB = A.EMPL_NUMB
+		  LEFT JOIN HR_MASTXD C
+				 ON C.EMPL_NUMB = B.EMPL_NUMB
+		  LEFT JOIN VI_DEPTXM D
+				 ON D.DEPT_CODE = B.DEPT_CODE
+		  LEFT JOIN (SELECT A.USER_IDXX
+						  , LISTAGG(B.GRUP_NAME, ', ') WITHIN GROUP (ORDER BY B.SORT_ORDR) AS GRUP_NAME
+					   FROM TM_GROUPX A
+					  INNER JOIN VI_ATGPXM B
+							  ON B.GRUP_IDXX = A.GRUP_IDXX
+					  WHERE A.USER_IDXX = #{id}
+					  GROUP BY A.USER_IDXX
+					) E
+				 ON E.USER_IDXX = A.USER_IDXX
+		 WHERE A.USER_IDXX = #{id}
+		   AND A.USEX_YSNO = '1'
+        ]]>
+	</select>
+
+	<select id="getMenuList" resultType="MenuList">
+	<![CDATA[
+		SELECT /* MAINFRAME.getMenuList */
+		       X.MENU_LEVL AS menuLevl
+			 , X.MENU_IDXX AS menuIdxx
+			 , X.DEVC_YSNO AS devcYsno
+			 , X.MENU_NAME AS menuName
+			 , X.MNUT_YSNO AS mnutYsno
+			 , X.UPME_IDXX AS upmeIdxx
+			 , X.UPME_NAME AS upmeName
+			 , X.PROG_IDXX AS progIdxx
+			 , X.PROG_PATH AS progPath
+			 , X.USER_AUTH AS userAuth
+			 , X.ATHR_LEVL AS athrLevl
+			 , X.SYST_CODE AS systCode
+			 , X.SORT_IDXX AS sortIdxx
+		  FROM (
+				SELECT A.MENU_LEVL
+					 , A.MENU_IDXX
+					 , A.DEVC_YSNO
+					 , CASE
+						 WHEN A.MENU_LEVL = '4'
+						   THEN '1'
+						 ELSE '0'
+						END AS LEAF_YSNO
+					 , CASE
+						 WHEN A.DEVC_YSNO = '1'
+						   THEN A.MENU_NAME
+						 ELSE
+						   CASE
+							 WHEN A.MENU_LEVL = '4'
+							   THEN '[미개발] ' || A.MENU_NAME
+							 ELSE A.MENU_NAME
+							END
+						END AS MENU_NAME
+					 , A.MNUT_YSNO
+					 , A.MENU_FUNM AS UPME_NAME
+					 , A.PROG_IDXX
+					 , A.PROG_PATH
+					 , (NVL(B.SEAU_YSNO, '') || NVL(B.INAU_YSNO, '') || NVL(B.DEAU_YSNO, '') || NVL(B.SVAU_YSNO, '') || NVL(B.PRAU_YSNO, '') || NVL(B.EXCE_YSNO, '') || 'T') AS USER_AUTH
+					 , B.ATHR_LEVL
+					 , A.SYST_CODE
+					 , A.SORT_IDXX
+					 , A.UPME_IDXX
+				  FROM (/* 메뉴구조조회(Node) */
+						SELECT A.MENU_LEVL				/* 메뉴레벨 */
+							 , A.MENU_IDXX				/* 메뉴ID */
+							 , A.MENU_NAME				/* 메뉴명 */
+							 , A.UPME_IDXX				/* 상위메뉴ID */
+							 , A.MNUT_YSNO				/* 메뉴트리여부 */
+							 , A.PROG_IDXX				/* 프로그램ID */
+							 , B.PROG_PATH				/* 프로그램경로(XML 위치) */
+							 , A.SYST_CODE				/* 시스템코드 */
+							 , A.DEVC_YSNO				/* 개발완료여부 */
+							 , A.MENU_FUNM				/* 메뉴전체명 */
+							 , A.SORT_IDXX				/* 정렬순서 */
+						  FROM VI_MENUXM A
+						  LEFT JOIN TM_PROGXM B
+								 ON A.PROG_IDXX = B.PROG_IDXX
+						 WHERE A.USEX_YSNO = '1'
+					   ) A 
+				  LEFT JOIN (/* 사용자의권한에의한화면조회 */
+							 SELECT MENU_IDXX
+								  , CASE WHEN MAX(FMAU_YSNO) = '1' THEN 'T' ELSE 'F' END AS FMAU_YSNO
+								  , CASE WHEN MAX(EXCE_YSNO) = '1' THEN 'T' ELSE 'F' END AS EXCE_YSNO
+								  , CASE WHEN MAX(SEAU_YSNO) = '1' THEN 'T' ELSE 'F' END AS SEAU_YSNO
+								  , CASE WHEN MAX(INAU_YSNO) = '1' THEN 'T' ELSE 'F' END AS INAU_YSNO
+								  , CASE WHEN MAX(DEAU_YSNO) = '1' THEN 'T' ELSE 'F' END AS DEAU_YSNO
+								  , CASE WHEN MAX(SVAU_YSNO) = '1' THEN 'T' ELSE 'F' END AS SVAU_YSNO
+								  , CASE WHEN MAX(PRAU_YSNO) = '1' THEN 'T' ELSE 'F' END AS PRAU_YSNO
+								  , MIN(ATHR_LEVL) AS ATHR_LEVL
+							   FROM TM_AUTHXM
+							  WHERE GRUP_IDXX IN (SELECT GRUP_IDXX FROM TM_GROUPX WHERE USER_IDXX = 'tester')
+								AND FMAU_YSNO = '1'
+							  GROUP BY MENU_IDXX
+							) B
+						 ON B.MENU_IDXX = A.MENU_IDXX
+				 WHERE B.MENU_IDXX IS NOT NULL
+					OR A.MNUT_YSNO = '1'
+					AND A.MENU_LEVL != '1'
+			   ) X
+		 INNER JOIN (
+		 			 SELECT A.MENU_IDXX
+						  , COUNT(B.SORT_IDXX) AS MENU_CONT
+					   FROM VI_MENUXM A
+					   LEFT JOIN (
+								  SELECT A.MENU_IDXX
+									   , B.SORT_IDXX
+									FROM TM_AUTHXM A
+								   INNER JOIN VI_MENUXM B
+										   ON A.MENU_IDXX = B.MENU_IDXX
+								   WHERE A.GRUP_IDXX IN (SELECT GRUP_IDXX FROM TM_GROUPX WHERE USER_IDXX = 'tester')
+									 AND A.FMAU_YSNO = '1' 
+								   GROUP BY A.MENU_IDXX, B.SORT_IDXX
+								 ) B
+							  ON B.SORT_IDXX LIKE A.SORT_IDXX || '%'
+					  GROUP BY A.MENU_IDXX
+					 HAVING COUNT(B.SORT_IDXX) > 0
+					) Y 
+				 ON X.MENU_IDXX = Y.MENU_IDXX
+		 ORDER BY X.SORT_IDXX
+	]]>
+	</select>
+</mapper>

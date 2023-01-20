@@ -1,0 +1,51 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.cmm.ComComboMapper">
+
+	<!-- 공통코드조회 콤보 -->
+	<select id="getCombo" parameterType="hashmap" resultType="ComCombo">
+	<![CDATA[
+		SELECT B.COMM_CODE AS commCode		/*공통코드*/
+			  ,B.COMM_CDNM AS commCdnm		/*공통코드명*/
+			  ,B.SYST_CODE AS systCode		/*시스템코드*/
+			  ,A.COMD_CODE AS comdCode		/*세부코드*/
+			  ,A.COMD_CDNM AS comdCdnm		/*세부코드명*/
+			  ,A.COMD_ENNM AS comdEnmn		/*세부코드영문명*/
+			  ,A.REF1_FILD AS ref1Fild		/*보조필드1*/
+			  ,A.REF2_FILD AS ref2Fild		/*보조필드2*/
+			  ,A.REF3_FILD AS ref3Fild		/*보조필드3*/
+			  ,A.REF4_FILD AS ref4Fild		/*보조필드4*/
+			  ,A.REF5_FILD AS ref5Fild		/*보조필드5*/
+			  ,A.REF6_FILD AS ref6Fild		/*보조필드6*/
+			  ,A.REF7_FILD AS ref7Fild		/*보조필드7*/
+			  ,A.REF8_FILD AS ref8Fild		/*보조필드8*/
+			  ,A.REF9_FILD AS ref9Fild		/*보조필드9*/
+			  ,A.RE10_FILD AS re10Fild		/*보조필드10*/
+			  ,A.OERP_CODE AS oerpCode		/*원ERP코드*/
+			  ,A.CRTE_DATE AS crteDate		/*생성일*/
+			  ,A.WAST_DATE AS wastDate		/*폐기일*/
+			  ,A.REMK_100X AS remk100x		/*비고*/
+			  ,A.SORT_ORDR AS sortOrdr		/*정렬순서*/
+			  ,CASE
+					WHEN A.CRTE_DATE <= SUBSTR(TO_CHAR(SYSDATE, 'YYYYMMDD'), 1, 8) 
+							AND (A.WAST_DATE = '' OR A.WAST_DATE IS NULL OR A.WAST_DATE >= SUBSTR(TO_CHAR(SYSDATE, 'YYYYMMDD'), 1, 8))
+					THEN '1' ELSE '0'
+				END AS usexYsno	/*사용여부*/
+		  FROM TM_CODEXD A
+		    JOIN TM_CODEXH B
+			  ON A.COMM_CODE = B.COMM_CODE
+		 WHERE A.COMM_CODE = #{commCode}
+	]]>
+	<if test='usexYsno != null and usexYsno != ""'>
+	<![CDATA[
+		   AND (CASE
+					WHEN A.CRTE_DATE <= SUBSTR(TO_CHAR(SYSDATE, 'YYYYMMDD'), 1, 8) 
+							AND (A.WAST_DATE = '' OR A.WAST_DATE IS NULL OR A.WAST_DATE >= SUBSTR(TO_CHAR(SYSDATE, 'YYYYMMDD'), 1, 8))
+					THEN '1' ELSE '0'
+				END) = #{usexYsno}
+	]]>
+	</if>
+	<![CDATA[
+		 ORDER BY A.SORT_ORDR, A.COMD_CODE
+	]]>
+	</select>
+</mapper>

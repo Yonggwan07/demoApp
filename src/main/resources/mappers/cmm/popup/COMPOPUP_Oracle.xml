@@ -1,0 +1,35 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.cmm.ComCommonPopupMapper">
+
+	<!-- 공통팝업 정보 조회 -->
+	<select id="getCommonPopupInfo" parameterType="hashmap" resultType="ComCommonPopupInfo">
+	<![CDATA[
+		SELECT  row_number() over (order by POPP_CODE) AS id
+			   ,POPP_CODE   /* 팝업코드 */
+		       ,POPP_NAME   /* 팝업명 */
+		       ,POPP_CNTT   /* 팝업내용 */
+		       ,AULU_YSNO
+		       ,CDRI_YSNO
+		       ,SERS_GRDC
+		       ,POPP_XDAX   /* 팝업 SQLMap ID */
+		       ,SECN_SYNX
+		  FROM TM_POPUPX
+		 WHERE POPP_CODE = #{POPP_CODE}
+	]]>
+	</select>
+	
+	<!-- 공통코드 정보 조회 -->
+ 	<select id="getCommcodeInfo" parameterType="hashmap" resultType="hashmap">
+ 	<![CDATA[
+		SELECT A.COMM_CODE
+			 , A.COMD_CODE
+			 , A.COMD_CDNM
+		  FROM TM_CODEXD A
+		 WHERE EXISTS (SELECT B.COLUMN_VALUE
+						 FROM TABLE(SF_FIND_COMMCODE((SELECT SECN_SYNX FROM TM_POPUPX WHERE POPP_CODE = #{POPP_CODE}))) B
+						WHERE B.COLUMN_VALUE = A.COMM_CODE)
+		   AND A.COMD_CDNM IS NOT NULL
+ 	]]>
+ 	</select>
+ 	
+</mapper>
