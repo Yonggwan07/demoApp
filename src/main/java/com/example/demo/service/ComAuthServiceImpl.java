@@ -7,13 +7,14 @@ import javax.naming.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.data.dao.cmm.MenuDAO;
 import com.example.demo.data.dao.cmm.UserDAO;
 import com.example.demo.data.dto.cmm.UserDto;
 import com.example.demo.data.dto.cmm.UserResponseDto;
+import com.example.demo.data.entity.cmm.Menu;
 import com.example.demo.data.entity.cmm.User;
 import com.example.demo.lib.SecureUtil;
 import com.example.demo.mapper.ComAuthMapper;
-import com.example.demo.model.MenuList;
 import com.example.demo.model.SigninInfo;
 import com.example.demo.model.UserInfo;
 
@@ -21,9 +22,11 @@ import com.example.demo.model.UserInfo;
 public class ComAuthServiceImpl implements ComAuthService {
 
     private final UserDAO userDAO;
+    private final MenuDAO menuDAO;
 
-    public ComAuthServiceImpl(UserDAO userDAO) {
+    public ComAuthServiceImpl(UserDAO userDAO, MenuDAO menuDAO) {
         this.userDAO = userDAO;
+        this.menuDAO = menuDAO;
     }
 
     @Autowired
@@ -73,8 +76,13 @@ public class ComAuthServiceImpl implements ComAuthService {
         }
     }
 
+    // @Override
+    // public List<MenuList> getMenuList() {
+    //     return comAuthMapper.getMenuList();
+    // }
+
     @Override
-    public List<MenuList> getMenuList() {
-        return comAuthMapper.getMenuList();
+    public List<Menu> getMenuList() {
+        return menuDAO.selectMenuList();
     }
 }

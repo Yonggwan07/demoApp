@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.naming.AuthenticationException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.example.demo.data.dto.cmm.UserDto;
 import com.example.demo.data.dto.cmm.UserResponseDto;
-import com.example.demo.model.MenuList;
+import com.example.demo.data.entity.cmm.Menu;
 import com.example.demo.model.SigninInfo;
 import com.example.demo.service.ComAuthService;
 
@@ -27,8 +26,14 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("api/auth")
 public class ComAuthController {
 
-    @Autowired
-    private ComAuthService comAuthService;
+    //@Autowired
+    //private ComAuthService comAuthService;
+
+    private final ComAuthService comAuthService;
+
+    public ComAuthController(ComAuthService comAuthService) {
+        this.comAuthService = comAuthService;
+    }
 
     @PostMapping("signin")
     public ResponseEntity<UserResponseDto> signin(@RequestBody SigninInfo signinInfo, HttpServletRequest request)
@@ -75,8 +80,12 @@ public class ComAuthController {
         return "/";
     }
 
+    // @GetMapping("getMenuList")
+    // public ResponseEntity<List<MenuList>> getMenuList() {
+    //     return new ResponseEntity<>(comAuthService.getMenuList(), HttpStatus.OK);
+    // }
     @GetMapping("getMenuList")
-    public ResponseEntity<List<MenuList>> getMenuList() {
-        return new ResponseEntity<>(comAuthService.getMenuList(), HttpStatus.OK);
+    public List<Menu> getMenuList() {
+        return comAuthService.getMenuList();
     }
 }
