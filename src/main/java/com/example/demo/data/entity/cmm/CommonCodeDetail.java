@@ -16,7 +16,6 @@ import lombok.EqualsAndHashCode;
 @IdClass(CommonCodeDetailPK.class)
 public class CommonCodeDetail extends BaseEntity {
     @Id
-    @Column(name = "common_code")
     private String commonCode;
     @Id
     private String commonDetailCode;

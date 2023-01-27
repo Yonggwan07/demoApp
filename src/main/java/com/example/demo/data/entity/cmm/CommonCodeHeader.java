@@ -56,8 +56,8 @@ public class CommonCodeHeader extends BaseEntity {
     private String refFieldCommonCode10;
     private String note;
 
-    @OneToMany
-    @JoinColumn(name = "common_code")
-    @OrderBy("sort_order")
-    private List<CommonCodeDetail> commonCodeDetails;
+    //@OneToMany
+    //@JoinColumn(name = "common_code")
+    //@OrderBy("sort_order")
+    //private List<CommonCodeDetail> commonCodeDetails;
 }

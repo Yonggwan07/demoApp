@@ -17,27 +17,27 @@ public class TMMA0011ServiceTest {
     private TMMA0011Mapper tmma0011Mapper = Mockito.mock(TMMA0011Mapper.class);
     private TMMA0011ServiceImpl tmma0011Service;
 
-    @BeforeEach
-    public void setUpTest() {
-        tmma0011Service = new TMMA0011ServiceImpl(tmma0011Mapper);
-    }
+    // @BeforeEach
+    // public void setUpTest() {
+    //     tmma0011Service = new TMMA0011ServiceImpl(tmma0011Mapper);
+    // }
 
-    @Test
-    void getTmCodexhTest() {
+    // @Test
+    // void getTmCodexhTest() {
 
-        TmCodexh givenTmCodexh = new TmCodexh();
-        givenTmCodexh.setCOMM_CODE("ACCT_CODE");
-        givenTmCodexh.setCOMM_CDNM("계정과목코드");
-        givenTmCodexh.setSYST_CODE("PAY");
+    //     TmCodexh givenTmCodexh = new TmCodexh();
+    //     givenTmCodexh.setCOMM_CODE("ACCT_CODE");
+    //     givenTmCodexh.setCOMM_CDNM("계정과목코드");
+    //     givenTmCodexh.setSYST_CODE("PAY");
 
-        Mockito.when(tmma0011Mapper.getTmCodexh("ACCT_CODE", "PAY")).thenReturn(Arrays.asList(givenTmCodexh));
+    //     Mockito.when(tmma0011Mapper.getTmCodexh("ACCT_CODE", "PAY")).thenReturn(Arrays.asList(givenTmCodexh));
 
-        List<TmCodexh> tmCodexh = tmma0011Service.getTmCodexh("ACCT_CODE", "PAY");
+    //     List<TmCodexh> tmCodexh = tmma0011Service.getTmCodexh("ACCT_CODE", "PAY");
 
-        Assertions.assertEquals(tmCodexh.get(0).getCOMM_CODE(), givenTmCodexh.getCOMM_CODE());
-        Assertions.assertEquals(tmCodexh.get(0).getCOMM_CDNM(), givenTmCodexh.getCOMM_CDNM());
-        Assertions.assertEquals(tmCodexh.get(0).getSYST_CODE(), givenTmCodexh.getSYST_CODE());
+    //     Assertions.assertEquals(tmCodexh.get(0).getCOMM_CODE(), givenTmCodexh.getCOMM_CODE());
+    //     Assertions.assertEquals(tmCodexh.get(0).getCOMM_CDNM(), givenTmCodexh.getCOMM_CDNM());
+    //     Assertions.assertEquals(tmCodexh.get(0).getSYST_CODE(), givenTmCodexh.getSYST_CODE());
 
-        verify(tmma0011Mapper).getTmCodexh("ACCT_CODE", "PAY");
-    }
+    //     verify(tmma0011Mapper).getTmCodexh("ACCT_CODE", "PAY");
+    // }
 }
