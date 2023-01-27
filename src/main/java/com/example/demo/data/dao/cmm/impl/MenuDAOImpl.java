@@ -2,7 +2,6 @@ package com.example.demo.data.dao.cmm.impl;
 
 import java.util.List;
 
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.data.dao.cmm.MenuDAO;
@@ -19,6 +18,6 @@ public class MenuDAOImpl implements MenuDAO {
 
     @Override
     public List<Menu> selectMenuList() {
-        return menuRepository.findAll(Sort.by(Sort.Direction.ASC, "sortId"));
+        return menuRepository.findAllByOrderBySortId();
     }
 }
