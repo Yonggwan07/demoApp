@@ -1,11 +1,15 @@
 package com.example.demo.data.entity.cmm;
 
+import com.example.demo.data.entity.BaseEntity;
+
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
-public class Menu {
+@EqualsAndHashCode(callSuper = true)
+public class Menu extends BaseEntity {
     @Id
     @Column(length = 9)
     private String menuId;

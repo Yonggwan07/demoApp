@@ -2,6 +2,8 @@ package com.example.demo.data.entity.cmm;
 
 import java.util.List;
 
+import com.example.demo.data.entity.BaseEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -9,10 +11,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
-public class CommonCodeHeader {
+@EqualsAndHashCode(callSuper = true)
+public class CommonCodeHeader extends BaseEntity {
     @Id
     @Column(length = 10)
     private String commonCode;

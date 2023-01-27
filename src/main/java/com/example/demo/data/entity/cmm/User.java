@@ -1,13 +1,17 @@
 package com.example.demo.data.entity.cmm;
 
-import java.time.LocalDateTime;
+import com.example.demo.data.entity.BaseEntity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
-public class User {
+@EqualsAndHashCode(callSuper = true)
+public class User extends BaseEntity {
     @Id
     @Column(length = 15)
     private String userId;
@@ -20,8 +24,4 @@ public class User {
 
     @Column(nullable = false, length = 20)
     private String password;
-
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
 }

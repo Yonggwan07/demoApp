@@ -2,16 +2,19 @@ package com.example.demo.data.entity.cmm;
 
 import java.util.Date;
 
-import jakarta.persistence.Column;
+import com.example.demo.data.entity.BaseEntity;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = true)
 @IdClass(CommonCodeDetailPK.class)
-public class CommonCodeDetail {
+public class CommonCodeDetail extends BaseEntity {
     @Id
     @Column(name = "common_code")
     private String commonCode;
