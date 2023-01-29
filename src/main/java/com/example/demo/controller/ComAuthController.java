@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.example.demo.data.dto.cmm.UserDto;
 import com.example.demo.data.dto.cmm.UserResponseDto;
 import com.example.demo.data.entity.cmm.Menu;
-import com.example.demo.model.SigninInfo;
 import com.example.demo.service.ComAuthService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,16 +35,15 @@ public class ComAuthController {
     }
 
     @PostMapping("signin")
-    public ResponseEntity<UserResponseDto> signin(@RequestBody SigninInfo signinInfo, HttpServletRequest request)
+    public ResponseEntity<UserResponseDto> signin(@RequestBody UserDto signinInfo, HttpServletRequest request)
             throws AuthenticationException {
 
-        //UserInfo userInfo = null;
         UserResponseDto userResponseDto;
 
         try {
             UserDto userDto = new UserDto();
-            userDto.setUserId(signinInfo.getId());
-            userDto.setPassword(signinInfo.getPw());
+            userDto.setUserId(signinInfo.getUserId());
+            userDto.setPassword(signinInfo.getPassword());
             userResponseDto = comAuthService.signin(userDto);
         } catch (AuthenticationException e) {
             e.printStackTrace();
@@ -55,7 +53,6 @@ public class ComAuthController {
         //if (userInfo != null) {
         if (userResponseDto != null) {
             HttpSession session = request.getSession(true);
-            //userInfo.setScrtNumb("");
             session.setAttribute("_USER_SESSION_ATTRIBUTE", userResponseDto);
         }
 

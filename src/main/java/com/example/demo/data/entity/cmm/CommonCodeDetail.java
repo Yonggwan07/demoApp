@@ -6,18 +6,16 @@ import com.example.demo.data.entity.BaseEntity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-@IdClass(CommonCodeDetailPK.class)
 public class CommonCodeDetail extends BaseEntity {
     @Id
+    private int seq;
     private String commonCode;
-    @Id
     private String commonDetailCode;
     private String commonDetailCodeName;
     private String commonDetailCodeEnglishName;

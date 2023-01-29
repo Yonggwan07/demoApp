@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class CommonCodeHeader extends BaseEntity {
     @Id
-    @Column(length = 10)
+    private int seq;
     private String commonCode;
     private String commonCodeName;
     private String systemCode;
