@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.data.entity.cmm.CommonCodeHeader;
-import com.example.demo.model.tmm.TmCodexh;
+import com.example.demo.data.dto.cmm.CommonCodeHeaderResponseDto;
 import com.example.demo.service.tmm.TMMA0011Service;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,17 +26,9 @@ public class TMMA0011Controller {
     @Autowired
     private TMMA0011Service tmma0010Service;
 
-    // @Operation(summary = "공통코드 조회")
-    // @GetMapping("TmCodexh")
-    // public List<TmCodexh> getTmCodexh(
-    //         @Parameter(description = "공통코드/명") @RequestParam(required = false) String COMM_CDNM,
-    //         @Parameter(description = "시스템코드") @RequestParam(required = false) String SYST_CODE) {
-    //     return tmma0010Service.getTmCodexh(COMM_CDNM, SYST_CODE);
-    // }
-
     @Operation(summary = "공통코드 조회")
-    @GetMapping("TmCodexh")
-    public List<CommonCodeHeader> getTmCodexh(
+    @GetMapping("commonCodeHeader")
+    public List<CommonCodeHeaderResponseDto> getTmCodexh(
             @Parameter(description = "공통코드/명") @RequestParam(required = false) String commonCodeName,
             @Parameter(description = "시스템코드") @RequestParam(required = false) String systemCode) {
         return tmma0010Service.getCommonCodeHeaders(commonCodeName, systemCode);

@@ -6,9 +6,8 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.data.dao.cmm.CommonCodeHeaderDAO;
-import com.example.demo.data.entity.cmm.CommonCodeHeader;
+import com.example.demo.data.dto.cmm.CommonCodeHeaderResponseDto;
 import com.example.demo.mapper.tmm.TMMA0011Mapper;
-import com.example.demo.model.tmm.TmCodexh;
 
 @Service
 public class TMMA0011ServiceImpl implements TMMA0011Service {
@@ -22,13 +21,7 @@ public class TMMA0011ServiceImpl implements TMMA0011Service {
     }
 
     @Override
-    public List<TmCodexh> getTmCodexh(String COMM_CDNM, String SYST_CODE) {
-        return tmma0011Mapper.getTmCodexh(COMM_CDNM, SYST_CODE);
-    }
-
-    @Override
-    public List<CommonCodeHeader> getCommonCodeHeaders(String commonCodeName, String systemCode) {
-        //return commonCodeHeaderDAO.findByCommonCodeContainingOrCommonCodeNameContainingAndSystemCode(commonCodeName, systemCode);
+    public List<CommonCodeHeaderResponseDto> getCommonCodeHeaders(String commonCodeName, String systemCode) {
         return commonCodeHeaderDAO.findBySearchCondition(commonCodeName, commonCodeName, systemCode);
     }
 
