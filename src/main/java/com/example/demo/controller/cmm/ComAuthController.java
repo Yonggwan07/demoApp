@@ -1,7 +1,6 @@
 package com.example.demo.controller.cmm;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpHeaders;
@@ -20,9 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.data.dto.cmm.SignInResultDto;
 import com.example.demo.data.dto.cmm.SignUpResultDto;
 import com.example.demo.data.dto.cmm.UserResponseDto;
-import com.example.demo.data.entity.cmm.Menu;
 import com.example.demo.security.JwtTokenProvider;
 import com.example.demo.service.cmm.ComAuthService;
+import com.example.demo.service.cmm.ComUserService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -37,6 +36,7 @@ import lombok.RequiredArgsConstructor;
 public class ComAuthController {
 
     private final ComAuthService comAuthService;
+    private final ComUserService comUserService;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Operation(summary = "Sign Up")
@@ -99,7 +99,7 @@ public class ComAuthController {
         }
 
         String userId = jwtTokenProvider.getUserId(token);
-        UserResponseDto userResponseDto = comAuthService.getUser(userId);
+        UserResponseDto userResponseDto = comUserService.getUserInfo(userId);
         if (userResponseDto == null || userResponseDto.getUserId().isEmpty()) {
             return new ResponseEntity<UserResponseDto>(userResponseDto, HttpStatus.UNAUTHORIZED);
         } else {
@@ -114,11 +114,6 @@ public class ComAuthController {
         cookie.setPath("/");
         response.addCookie(cookie);
         return "/";
-    }
-
-    @GetMapping("getMenuList")
-    public List<Menu> getMenuList() {
-        return comAuthService.getMenuList();
     }
 
     @ExceptionHandler(value = RuntimeException.class)

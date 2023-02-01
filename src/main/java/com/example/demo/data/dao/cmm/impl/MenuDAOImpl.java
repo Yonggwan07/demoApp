@@ -17,7 +17,7 @@ public class MenuDAOImpl implements MenuDAO {
     }
 
     @Override
-    public List<Menu> selectMenuList() {
+    public List<Menu> findMenus() {
         return menuRepository.findAllByOrderBySortId();
     }
 }
