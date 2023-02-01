@@ -21,8 +21,7 @@ public class UserRepositoryTest {
 
             System.out.println("----- Select User Table -----");
             System.out.println("getUserId : " + selected.getUserId());
-            System.out.println("getUserName : " + selected.getUserName());
-            System.out.println("getUserNumber : " + selected.getUserNumber());
+            System.out.println("getUserName : " + selected.getUsername());
             System.out.println("getUserPassword : " + selected.getPassword());
             System.out.println("----- End -----");
     }

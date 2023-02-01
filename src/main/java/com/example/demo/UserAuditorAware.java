@@ -8,19 +8,25 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.example.demo.data.dto.cmm.UserResponseDto;
+import com.example.demo.security.JwtTokenProvider;
+import com.example.demo.service.ComAuthService;
 
-import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Component
 public class UserAuditorAware implements AuditorAware<String> {
+
+    private final JwtTokenProvider jwtTokenProvider;
+    private final ComAuthService comAuthService;
+
     @Override
     public Optional<String> getCurrentAuditor() {
         
-        // TODO: JWT
-
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        HttpSession session = attr.getRequest().getSession();
-        UserResponseDto userResponseDto = (UserResponseDto) session.getAttribute("_USER_SESSION_ATTRIBUTE");
+        String token = jwtTokenProvider.resolveToken(attr.getRequest());
+        String userId = jwtTokenProvider.getUserId(token);
+        UserResponseDto userResponseDto = comAuthService.getUser(userId);
 
         return Optional.of(userResponseDto.getUserId());
     }
