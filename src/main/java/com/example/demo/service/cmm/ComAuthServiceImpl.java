@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.service.cmm;
 
 import java.util.Collections;
 import java.util.List;

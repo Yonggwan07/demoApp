@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.controller.cmm;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +22,7 @@ import com.example.demo.data.dto.cmm.SignUpResultDto;
 import com.example.demo.data.dto.cmm.UserResponseDto;
 import com.example.demo.data.entity.cmm.Menu;
 import com.example.demo.security.JwtTokenProvider;
-import com.example.demo.service.ComAuthService;
+import com.example.demo.service.cmm.ComAuthService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

@@ -9,7 +9,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.example.demo.data.dto.cmm.UserResponseDto;
 import com.example.demo.security.JwtTokenProvider;
-import com.example.demo.service.ComAuthService;
+import com.example.demo.service.cmm.ComAuthService;
 
 import lombok.RequiredArgsConstructor;
 
