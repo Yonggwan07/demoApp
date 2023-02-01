@@ -16,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.example.demo.WithUser;
 import com.example.demo.data.dto.cmm.CommonCodeHeaderResponseDto;
 import com.example.demo.service.tmm.TMMA0011ServiceImpl;
 
@@ -29,18 +30,16 @@ public class TMMA0011ControllerTest {
     TMMA0011ServiceImpl tmma0011service;
 
     @Test
+    @WithUser
     @DisplayName("공통코드 조회 테스트")
     void getTmCodexhTest() throws Exception {
-
-        // TODO: JWT Authentication
-
         CommonCodeHeaderResponseDto cchrDto = new CommonCodeHeaderResponseDto();
         cchrDto.setCommonCode("ACCT_CODE");
         cchrDto.setCommonCodeName("계정과목코드");
         cchrDto.setSystemCode("PAY");
 
         given(tmma0011service.getCommonCodeHeaders("ACCT_CODE", "PAY")).willReturn(Arrays.asList(cchrDto));
-        mockMvc.perform(get("/api/TMMA0011/commonCodeHeader?COMM_CDNM=ACCT_CODE&SYST_CODE=PAY")).andExpect(status().isOk())
+        mockMvc.perform(get("/api/TMMA0011/commonCodeHeader?commonCodeName=ACCT_CODE&systemCode=PAY")).andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].commonCode").exists()).andExpect(jsonPath("$[0].commonCodeName").exists())
                 .andExpect(jsonPath("$[0].systemCode").exists())
                 .andDo(print());
