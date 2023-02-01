@@ -33,7 +33,7 @@ public class CommonCodeHeaderRepositoryCustomImpl extends QuerydslRepositorySupp
     public List<CommonCodeHeaderResponseDto> findBySearchCondition(String commonCode, String commonCodeName,
             String systemCode) {
         List<CommonCodeHeaderResponseDto> selected = queryFactory.select(Projections.fields(CommonCodeHeaderResponseDto.class,
-                commonCodeHeader.seq, commonCodeHeader.commonCode, commonCodeHeader.commonCodeName,
+                commonCodeHeader.id, commonCodeHeader.commonCode, commonCodeHeader.commonCodeName,
                 commonCodeHeader.systemCode, commonCodeHeader.divisionCode, commonCodeHeader.commonCodeLength,
                 commonCodeHeader.note, commonCodeHeader.isInitialized,
                 commonCodeHeader.refFieldDesc1, commonCodeHeader.refTypeCode1, commonCodeHeader.refFieldCommonCode1,

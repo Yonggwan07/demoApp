@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 public class CommonCodeHeader extends BaseEntity {
     @Id
     @Schema(description = "sequence")
-    private Long seq;
+    private Long id;
     @Column(nullable = false, unique = true)
     @Schema(description = "공통코드")
     private String commonCode;
