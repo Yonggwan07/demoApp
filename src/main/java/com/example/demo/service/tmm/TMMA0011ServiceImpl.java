@@ -1,12 +1,12 @@
 package com.example.demo.service.tmm;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import com.example.demo.data.dao.cmm.CommonCodeHeaderDAO;
 import com.example.demo.data.dto.cmm.CommonCodeHeaderResponseDto;
+import com.example.demo.data.entity.cmm.CommonCodeHeader;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,37 +14,25 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class TMMA0011ServiceImpl implements TMMA0011Service {
 
-    private final CommonCodeHeaderDAO commonCodeHeaderDAO;
+    private final CommonCodeHeaderDAO dao;
 
     @Override
-    public List<CommonCodeHeaderResponseDto> getCommonCodeHeaders(String commonCodeName, String systemCode) {
-        return commonCodeHeaderDAO.findBySearchCondition(commonCodeName, commonCodeName, systemCode);
+    public List<CommonCodeHeaderResponseDto> get(String commonCodeName, String systemCode) {
+        return dao.findBySearchCondition(commonCodeName, commonCodeName, systemCode);
     }
 
     @Override
-    public int save00(List<Map<String, String>> data) {
+    public CommonCodeHeader save(CommonCodeHeader cch) {
+        return dao.insertCommonCodeHeader(cch);
+    }
 
-        // int iToCnt = 0;
+    @Override
+    public CommonCodeHeader update(CommonCodeHeader cch) throws Exception {
+        return dao.updateCommonCodeHeader(cch);
+    }
 
-        // for (Map<String, String> row : data) {
-
-        // String rowStatus = row.get("state");
-
-        // if (rowStatus == null) {
-        // row.put("UPDT_USID", "demoTester");
-        // tmma0011Mapper.update00(row);
-        // iToCnt++;
-        // } else if (rowStatus.equals("i")) {
-        // row.put("UPDT_USID", "demoTester");
-        // tmma0011Mapper.insert00(row);
-        // iToCnt++;
-        // } else if (rowStatus.equals("d")) {
-        // tmma0011Mapper.delete00(row);
-        // iToCnt++;
-        // }
-        // }
-
-        // return iToCnt;
-        return -1;
+    @Override
+    public void delete(String commonCode) throws Exception {
+        dao.deleteCommonCodeHeader(commonCode);
     }
 }

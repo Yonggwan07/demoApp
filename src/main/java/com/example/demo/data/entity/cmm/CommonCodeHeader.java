@@ -5,6 +5,8 @@ import com.example.demo.data.entity.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,7 +16,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class CommonCodeHeader extends BaseEntity {
     @Id
-    @Schema(description = "sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "id")
     private Long id;
     @Column(nullable = false, unique = true)
     @Schema(description = "공통코드")
