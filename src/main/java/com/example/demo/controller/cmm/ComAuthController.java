@@ -76,7 +76,7 @@ public class ComAuthController {
                         .maxAge(60 * 60) // 1 hour
                         .path("/")
                         .secure(true)
-                        .sameSite("None")
+                        .sameSite("Strict")
                         .httpOnly(true)
                         .build();
                 response.setHeader("Set-Cookie", cookie.toString());
