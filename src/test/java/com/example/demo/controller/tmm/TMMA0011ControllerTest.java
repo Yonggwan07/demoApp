@@ -38,11 +38,11 @@ public class TMMA0011ControllerTest {
         cchrDto.setCommonCodeName("계정과목코드");
         cchrDto.setSystemCode("PAY");
 
-        given(tmma0011service.getCommonCodeHeaders("ACCT_CODE", "PAY")).willReturn(Arrays.asList(cchrDto));
+        given(tmma0011service.get("ACCT_CODE", "PAY")).willReturn(Arrays.asList(cchrDto));
         mockMvc.perform(get("/api/TMMA0011/commonCodeHeader?commonCodeName=ACCT_CODE&systemCode=PAY")).andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].commonCode").exists()).andExpect(jsonPath("$[0].commonCodeName").exists())
                 .andExpect(jsonPath("$[0].systemCode").exists())
                 .andDo(print());
-        verify(tmma0011service).getCommonCodeHeaders("ACCT_CODE", "PAY");
+        verify(tmma0011service).get("ACCT_CODE", "PAY");
     }
 }

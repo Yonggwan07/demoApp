@@ -32,7 +32,7 @@ public class TMMA0011ServiceTest {
         given(commonCodeHeaderDAO.findBySearchCondition("ACCT_CODE", "ACCT_CODE", "PAY"))
                 .willReturn(List.of(givenCommonCodeHeader));
 
-        List<CommonCodeHeaderResponseDto> commonCodeHeader = tmma0011Service.getCommonCodeHeaders("ACCT_CODE", "PAY");
+        List<CommonCodeHeaderResponseDto> commonCodeHeader = tmma0011Service.get("ACCT_CODE", "PAY");
 
         Assertions.assertEquals(commonCodeHeader.get(0).getCommonCode(), givenCommonCodeHeader.getCommonCode());
         Assertions.assertEquals(commonCodeHeader.get(0).getCommonCodeName(), givenCommonCodeHeader.getCommonCodeName());
