@@ -75,7 +75,7 @@ public class ComAuthController {
                 ResponseCookie cookie = ResponseCookie.from("token", signInResultDto.getToken())
                         .maxAge(60 * 60) // 1 hour
                         .path("/")
-                        .secure(true)
+                        //.secure(true)
                         .sameSite("Strict")
                         .httpOnly(true)
                         .build();
