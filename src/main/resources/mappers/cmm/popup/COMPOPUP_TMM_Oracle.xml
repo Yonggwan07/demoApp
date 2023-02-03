@@ -6,22 +6,16 @@
 	<select id="TMM1003" parameterType="hashmap" resultType="hashmap">
 	<![CDATA[
 
-        SELECT  row_number() over (order by COMM_CODE) AS id
-			   ,COMM_CODE   /*공통코드*/
-               ,COMM_CDNM   /*공통코드명*/
-               ,SYST_CODE   /*시스템코드*/
-               ,CDGB_CODE   /*코드구분코드*/
-               ,COCD_LNTH   /*세부코드길이*/ 
-          FROM TM_CODEXH
-		 WHERE COMM_CODE || COMM_CDNM LIKE '%' || #{COMM_CDNM} || '%'
-	]]>
-	<if test='COMM_CODE != null and COMM_CODE != ""'>
-	<![CDATA[
-			  AND COMM_CODE = #{COMM_CODE}		
-	]]>		   
-	</if>	 
-	<![CDATA[	 
-		 ORDER BY COMM_CODE 
+        SELECT  row_number() over (order by common_code) AS id
+			   ,common_code as COMM_CODE  /*공통코드*/
+               ,common_code_name as COMM_CDNM  /*공통코드명*/
+               ,system_code as SYST_CODE  /*시스템코드*/
+               ,division_code as CDGB_CODE  /*코드구분코드*/
+               ,common_code_length as COCD_LNTH  /*세부코드길이*/ 
+          FROM common_code_header
+		 WHERE (LOCATE(#{COMM_CDNM}, common_code_name)
+		 	OR LOCATE(#{COMM_CDNM}, common_code))
+		 ORDER BY common_code 
 	]]>	 
 	</select>	
 </mapper>

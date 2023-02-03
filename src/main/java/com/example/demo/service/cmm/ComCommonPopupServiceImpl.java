@@ -1,7 +1,6 @@
 package com.example.demo.service.cmm;
 
 import java.util.List;
-import java.util.Map;
 
 import org.json.simple.JSONObject;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -21,12 +20,12 @@ public class ComCommonPopupServiceImpl implements ComCommonPopupService {
     private SqlSessionTemplate sqlSession;
 
     @Override
-    public ComCommonPopupInfo getCommonPopupInfo(Map<String, String> params) {
-        return comCommonPopupMapper.getCommonPopupInfo(params);
+    public ComCommonPopupInfo getCommonPopupInfo(String popupId) {
+        return comCommonPopupMapper.getCommonPopupInfo(popupId);
     }
 
     @Override
-    public List<JSONObject> getCommonPopupData(Map<String, String> params) {
-       return sqlSession.selectList(params.get("POPP_XDAX"), params);
+    public List<JSONObject> getCommonPopupData(String POPP_XDAX, String COMM_CDNM) {
+       return sqlSession.selectList(POPP_XDAX, COMM_CDNM);
     }
 }
