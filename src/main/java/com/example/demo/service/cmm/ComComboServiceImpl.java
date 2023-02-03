@@ -10,24 +10,21 @@ import org.springframework.stereotype.Service;
 import com.example.demo.data.dao.cmm.CommonCodeDetailDAO;
 import com.example.demo.data.entity.cmm.CommonCodeDetail;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class ComComboServiceImpl implements ComComboService {
     private final CommonCodeDetailDAO commonCodeDetailDAO;
-    // private final CommonCodeHeaderDAO commonCodeHeaderDAO;
-
-    public ComComboServiceImpl(CommonCodeDetailDAO commonCodeDetailDAO) {
-        this.commonCodeDetailDAO = commonCodeDetailDAO;
-    }
 
     @Override
-    public JSONObject getCombo(List<Map<String, String>> params) {
+    public JSONObject getCombo(String[] params) {
 
         Map<String, Object> map = new HashMap<>();
 
-        for (Map<String, String> comboItem : params) {
-            List<CommonCodeDetail> selected = commonCodeDetailDAO
-                    .findByCommonCodeOrderBySortOrder(comboItem.get("commCode"));
-            map.put(comboItem.get("commCode"), selected);
+        for (String code : params) {
+            List<CommonCodeDetail> selected = commonCodeDetailDAO.findByCommonCodeOrderBySortOrder(code);
+            map.put(code, selected);
         }
 
         return new JSONObject(map);
