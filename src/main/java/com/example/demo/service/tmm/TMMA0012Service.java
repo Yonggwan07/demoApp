@@ -2,10 +2,10 @@ package com.example.demo.service.tmm;
 
 import java.util.List;
 
-import com.example.demo.model.tmm.TmCodexd;
-import com.example.demo.model.tmm.TmCodexh;
+import com.example.demo.data.dto.cmm.CommonCodeHeaderResponseDto;
+import com.example.demo.data.entity.cmm.CommonCodeDetail;
 
 public interface TMMA0012Service {
-    public List<TmCodexh> getTmCodexh(String COMM_CDNM, String SYST_CODE);
-    public List<TmCodexd> getTmCodexd(String COMM_CODE);
+    public List<CommonCodeHeaderResponseDto> getHeader(String commonCodeName, String systemCode);
+    public List<CommonCodeDetail> getDetail(String commonCode);
 }
