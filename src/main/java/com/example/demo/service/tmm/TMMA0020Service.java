@@ -2,8 +2,8 @@ package com.example.demo.service.tmm;
 
 import java.util.List;
 
-import com.example.demo.model.tmm.TmMessxm;
+import com.example.demo.data.entity.cmm.Message;
 
 public interface TMMA0020Service {
-    public List<TmMessxm> getTmMessxm(String MSGE_CNTT);
+    public List<Message> get(String messageContent);
 }
