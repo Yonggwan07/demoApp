@@ -38,21 +38,26 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity.httpBasic().disable()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeHttpRequests().requestMatchers("/api/auth/**").permitAll()
-                .anyRequest().hasRole("ADMIN")
-                .and()
-                .exceptionHandling().accessDeniedHandler(new ComAccessDeniedHandler())
-                .and()
-                .exceptionHandling().authenticationEntryPoint(new ComAuthenticationEntryPoint())
-                .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-                        UsernamePasswordAuthenticationFilter.class)
-                .build();
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .httpBasic((httpBasic) -> httpBasic.disable())
+            .csrf((csrf) -> csrf.disable())
+            .sessionManagement((sessionManagement) ->
+                sessionManagement
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests((authorizeRequests) ->
+                authorizeRequests
+                    .requestMatchers("/api/auth/**").permitAll()
+                    .anyRequest().hasRole("ADMIN"))
+            .exceptionHandling((exceptionHandling) ->
+                exceptionHandling
+                    .accessDeniedHandler(new ComAccessDeniedHandler()))
+            .exceptionHandling((exceptionHandling) ->
+                exceptionHandling
+                    .authenticationEntryPoint(new ComAuthenticationEntryPoint()))
+            .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+                    UsernamePasswordAuthenticationFilter.class);
+        return http.build();
     }
 
     @Bean
