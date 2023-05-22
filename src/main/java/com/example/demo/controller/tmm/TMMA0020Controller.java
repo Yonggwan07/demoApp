@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "TMMA0020 - 메시지관리")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/TMMA0020")
+@RequestMapping("api/tmma0020")
 public class TMMA0020Controller {
 
     private final TMMA0020Service tmma0020Service;
