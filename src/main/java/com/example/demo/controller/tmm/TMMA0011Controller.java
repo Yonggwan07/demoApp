@@ -41,13 +41,13 @@ public class TMMA0011Controller {
     @Operation(summary = "공통코드 저장")
     @PostMapping
     public ResponseEntity<CommonCodeHeader> save(@RequestBody CommonCodeHeader cch) throws RuntimeException {
-        return new ResponseEntity<>(tmma0011Service.save(cch), HttpStatus.OK);
+        return ResponseEntity.ok(tmma0011Service.save(cch));
     }
 
     @Operation(summary = "공통코드 수정")
     @PutMapping
     public ResponseEntity<CommonCodeHeader> update(@RequestBody CommonCodeHeader cch) throws Exception {
-        return new ResponseEntity<>(tmma0011Service.update(cch), HttpStatus.OK);
+        return ResponseEntity.ok(tmma0011Service.update(cch));
     }
 
     @Operation(summary = "공통코드 삭제")

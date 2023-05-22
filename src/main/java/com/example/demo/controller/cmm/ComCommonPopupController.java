@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +29,7 @@ public class ComCommonPopupController {
     @GetMapping("info")
     public ResponseEntity<ComCommonPopupInfo> getCommonPopupInfo(
             @Parameter(description = "팝업 ID") @RequestParam String popupId) {
-        return new ResponseEntity<>(comCommonPopupService.getCommonPopupInfo(popupId), HttpStatus.OK);
+        return ResponseEntity.ok(comCommonPopupService.getCommonPopupInfo(popupId));
     }
 
     @Operation(summary = "공통팝업 데이터 조회")
@@ -38,6 +37,6 @@ public class ComCommonPopupController {
     public ResponseEntity<List<JSONObject>> getCommonPopupData(
             @Parameter(description = "팝업 XDA") @RequestParam String POPP_XDAX,
             @Parameter(description = "공통코드 명") @RequestParam(required = false) String COMM_CDNM) {
-        return new ResponseEntity<>(comCommonPopupService.getCommonPopupData(POPP_XDAX, COMM_CDNM), HttpStatus.OK);
+        return ResponseEntity.ok(comCommonPopupService.getCommonPopupData(POPP_XDAX, COMM_CDNM));
     }
 }

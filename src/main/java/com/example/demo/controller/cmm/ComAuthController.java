@@ -83,7 +83,7 @@ public class ComAuthController {
             }
         }
 
-        return new ResponseEntity<>(signInResultDto, HttpStatus.OK);
+        return ResponseEntity.ok(signInResultDto);
     }
 
     @GetMapping("/exception")
@@ -95,15 +95,15 @@ public class ComAuthController {
     public ResponseEntity<UserResponseDto> check(HttpServletRequest request) {
         String token = jwtTokenProvider.resolveToken(request);
         if (token == null) {
-            return new ResponseEntity<UserResponseDto>(HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
         String userId = jwtTokenProvider.getUserId(token);
         UserResponseDto userResponseDto = comUserService.getUserInfo(userId);
         if (userResponseDto == null || userResponseDto.getUserId().isEmpty()) {
-            return new ResponseEntity<UserResponseDto>(userResponseDto, HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(userResponseDto);
         } else {
-            return new ResponseEntity<UserResponseDto>(userResponseDto, HttpStatus.OK);
+            return ResponseEntity.ok(userResponseDto);
         }
     }
 
@@ -126,6 +126,6 @@ public class ComAuthController {
         map.put("code", String.valueOf(httpStatus.value()));
         map.put("message", "Authentication Error");
 
-        return new ResponseEntity<>(map, new HttpHeaders(), httpStatus);
+        return ResponseEntity.badRequest().headers(new HttpHeaders()).body(map);
     }
 }
